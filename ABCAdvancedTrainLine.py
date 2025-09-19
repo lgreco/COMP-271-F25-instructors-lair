@@ -32,7 +32,7 @@ class ABCAdvanvedTrainLine(ABC):
         """
 
     @abstractmethod
-    def index_of(self, name: str) -> int``:
+    def index_of(self, name: str) -> int:
         """
         Return the zero-based index of the first station that matches
         the given Station name string.
