@@ -19,6 +19,14 @@ class MyList:
         pass
 
     def __str__(self) -> str:
+        """ Returns a string in the exact format:
+          Elements separated by a comma followed by a space (", ")
+          Enclosed in square brackets with no extra spaces
+
+        Example:
+            If the list contains 1, 2, 3
+            str(list) should return: "[1, 2, 3]"
+        """
         pass
 
     def append(self, value) -> None:
