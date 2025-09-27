@@ -46,7 +46,7 @@ def rename_submission(path: Path, dest_dir: Path):
     return uvid, name, dest_file
 
 
-def prepare_submissions(sakai_basedir: Path|str) -> dict:
+def prepare_submissions(sakai_basedir: Path|str, graded_submissions_dir: Path) -> dict:
     """
     Rename and copy all submissions to submissions/ directory
     """
@@ -61,7 +61,7 @@ def prepare_submissions(sakai_basedir: Path|str) -> dict:
         logger.info(f"Processing {student_dir}")
         if student_dir.is_dir():
             try:
-                dest_dir = basepath / 'submissions'
+                dest_dir = graded_submissions_dir
                 dest_dir.mkdir(exist_ok=True) 
                 py_path = student_dir / 'Submission attachment(s)'
                 uvid, name, new_file = rename_submission(py_path, dest_dir)
@@ -138,15 +138,16 @@ def grade_submissions(submission_dir: Path, uvid2name_map: dict):
     
 def main():
     # sakai_submissions_dir = Path('./Sakai-RectangleOOP')  ## example
+
     sakai_submissions_dir = None
     assert sakai_submissions_dir is not None, f'Set the sakai_submissions_dir variable to the name of the directory with student submissions'
 
-    submission_dir = Path("./submissions")
-    submission_dir.mkdir(exist_ok=True)
+    graded_submission_dir = Path("./graded_submissions")
+    graded_submission_dir.mkdir(exist_ok=True)
 
-    uvid2name_map = prepare_submissions(sakai_submissions_dir)
+    uvid2name_map = prepare_submissions(sakai_submissions_dir, graded_submissions_dir=graded_submission_dir)
 
-    grade_submissions(submission_dir, uvid2name_map=uvid2name_map)
+    grade_submissions(graded_submission_dir, uvid2name_map=uvid2name_map)
     return 
     
 if __name__ == '__main__':

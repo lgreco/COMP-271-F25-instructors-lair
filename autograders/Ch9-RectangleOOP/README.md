@@ -3,8 +3,8 @@
 2. Download student submissions by clicking on "Download All" => **Check** the box for " Student submission attachment(s)".
 3. Unzip the archive and copy into the "Ch9-RectangleOOP" directory in the repo. 
 4. Rename the Sakai assignments directory to something short (optional) 
-5. Run `main.py`
-6. Open the `submissions` directory and view the following files:
+5. Run `main.py`, set the `sakai_submissions_dir` variable to the directory of Sakai submissions
+6. Open the `graded_submissions` directory and view the following files:
    * `grades_summary_sorted.csv` for a sorted list of grades
    * Each student with UVID will have two files inside:
      * `UVID_Rectangle.py`: their source code
