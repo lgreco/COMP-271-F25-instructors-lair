@@ -1,5 +1,6 @@
 from Node import Node
 
+
 class DoublyLinkedList:
 
     def __init__(self):
@@ -33,7 +34,7 @@ class DoublyLinkedList:
             self.tail.set_next(new_node)
         self.tail = new_node
         self.size += 1
-    
+
     def add_to_front(self, data):
         new_node = Node(data)
         if self.is_empty():
@@ -64,7 +65,6 @@ class DoublyLinkedList:
 
     def has_loop(self) -> bool:
         """Returns True if the list has a loop, False otherwise."""
-        loop = False
-        if not self.is_empty():
-            loop = self.head.get_prev() == self.head and self.tail.get_next() == self.tail
-        return loop
+        return self.is_empty() and (
+            self.head.get_prev() == self.head and self.tail.get_next() == self.tail
+        )
