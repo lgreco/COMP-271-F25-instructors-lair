@@ -65,6 +65,12 @@ class DoublyLinkedList:
 
     def has_loop(self) -> bool:
         """Returns True if the list has a loop, False otherwise."""
-        return self.is_empty() and (
-            self.head.get_prev() == self.head and self.tail.get_next() == self.tail
-        )
+        loop = False
+        if not self.is_empty():
+            slow = self.head
+            fast = self.head
+            while fast.has_next() and fast.get_next().has_next() and not loop:
+                slow = slow.get_next()
+                fast = fast.get_next().get_next()
+                loop = slow == fast
+        return loop
