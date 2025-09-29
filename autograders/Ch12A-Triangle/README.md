@@ -1,9 +1,9 @@
 # Autograder setup
-1. Go to Sakai COMP 271 F25 => Assignments => "Chapter 12A Assignment: Rectangle OOP" => "Grade".
+1. Go to Sakai COMP 271 F25 => Assignments => "Chapter 12A Assignment 1: Triangle with Inheritance" => "Grade".
 2. Download student submissions by clicking on "Download All" => **Check** the box for " Student submission attachment(s)".
 3. Unzip the archive and copy into the "Ch12A-Triangle" directory in the repo. 
 4. Rename the Sakai assignments directory to something short (optional) 
-5. Run `main.py`, set the `sakai_submissions_dir` variable to the directory of Sakai submissions
+5. Run `runner_triangle.py`, set the `sakai_submissions_dir` variable to the directory of Sakai submissions
 6. Open the `graded_submissions` directory and view the following files:
    * `grades_summary_sorted.csv` for a sorted list of grades
    * Each student with UVID will have two files inside:
