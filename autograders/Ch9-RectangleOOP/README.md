@@ -11,5 +11,6 @@
      * `UVID_results.json`: JSON with the test case results. Lists what test cases passed, and what failed. Use this to write your feedback.
 7. Start grading the assignment on Sakai. _Do not_ use the new Sakai grader. 
 8. Put the points and feedback for all students.
-9. Do not forget to check the `Late Pass 1` and `Late Pass 2` assignments on Sakai to see if students turned in their work with a late pass.
+9. **Manually** check their code for type annotations. Class variables at the minimum should be annotated. They should lose -0.5 points for missing annotations.
+10. Do not forget to check the `Late Pass 1` and `Late Pass 2` assignments on Sakai to see if students turned in their work with a late pass.
  
