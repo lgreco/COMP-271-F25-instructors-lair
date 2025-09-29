@@ -74,3 +74,4 @@ class DoublyLinkedList:
                 fast = fast.get_next().get_next()
                 loop = slow == fast
         return loop
+    
