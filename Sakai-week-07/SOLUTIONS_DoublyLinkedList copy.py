@@ -71,3 +71,41 @@ class DoublyLinkedList:
             and self.__head.get_prev() == self.__head
             and self.__tail.get_next() == self.__tail
         )
+
+
+    def has_gap_backward(self):
+        """Returns True if there is a gap between the forward and backward pointers."""
+        has_gap = False
+        if not self.is_empty():
+            cursor = self.__head
+            while cursor is not None and cursor.has_next() and not has_gap:
+                next = cursor.get_next
+                has_gap = ( next.get_prev() != cursor)
+                cursor = next
+        return has_gap
+    
+    def has_gap_forward(self):
+        has_gap = False
+        if not self.is_empty():
+            cursor = self.__tail
+            while cursor is not None and cursor.has_prev() and not has_gap:
+                prev = cursor.get_prev()
+                has_gap = (prev.get_next() != cursor)
+                cursor = prev
+        return has_gap
+    
+    def has_gap(self):
+        return self.has_gap_backward() or self.has_gap_forward()
+    
+    # Can forward or backward done in single method?
+    def has_gap_in_direction(self, forward=True):
+        has_gap = False
+        if not self.is_empty():
+            cursor = self.__tail if forward else self.__head
+            direction = (lambda node: node.get_prev()) if forward else (lambda node: node.get_next())
+            opposite = (lambda node: node.get_next()) if forward else (lambda node: node.get_prev())
+            while cursor is not None and direction(cursor) is not None and not has_gap:
+                next = direction(cursor)
+                has_gap = (opposite(next) != cursor)
+                cursor = next
+        return has_gap
