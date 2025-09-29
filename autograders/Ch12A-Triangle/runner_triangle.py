@@ -147,17 +147,13 @@ def grade_submissions(submission_dir: Path, uvid2name_map: dict):
 
 
 def main():
+    # sakai_submissions_dir = Path('./Sakai-Triangle')  ## example
+
     sakai_submissions_dir = None
-    sakai_submissions_dir = Path('./Sakai-Triangle')  ## example
 
     assert sakai_submissions_dir is not None, (
-        f"Set the sakai_submissions_dir variable to the name of the directory with student submissions"
+        f"Set the `sakai_submissions_dir` variable to the name of the directory with student submissions"
     )
-
-    graded_submissions_path = Path("./graded_submissions")
-    # name, uvid = 'Chloe Basch', 'cbasch'
-    # name, uvid = 'Clarence DeGuzman', 'cdeguzman'
-    # name, uvid = 'Dawson Gallay', 'dgallay'
 
     # grade_single_submission(name=name, uvid=uvid)
     graded_submission_dir = Path("./graded_submissions")
@@ -172,6 +168,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # prepare_submissions(Path("./Sakai-Triangle"), Path("./graded_submissions/"))
     main()
     # grade_single_submission(name='Nate', uvid='nberlin')
+
