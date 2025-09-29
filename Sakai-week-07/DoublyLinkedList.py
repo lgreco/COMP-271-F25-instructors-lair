@@ -43,3 +43,24 @@ class DoublyLinkedList:
             self.__head.set_prev(new_node)
         self.__head = new_node
         self.__size += 1
+
+    def has_gap_backward(self):
+        """Returns True if there is a gap between the forward and backward pointers."""
+        has_gap = False
+        if not self.is_empty():
+            cursor = self.__head
+            while cursor is not None and cursor.has_next() and not has_gap:
+                next = cursor.get_next
+                has_gap = ( next.get_prev() != cursor)
+                cursor = next
+        return has_gap
+    
+    def has_gap_forward(self):
+        has_gap = False
+        if not self.is_empty():
+            cursor = self.__tail
+            while cursor is not None and cursor.has_prev() and not has_gap:
+                prev = cursor.get_prev()
+                has_gap = (prev.get_next() != cursor)
+                cursor = prev
+        return has_gap
