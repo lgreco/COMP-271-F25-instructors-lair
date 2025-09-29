@@ -64,7 +64,10 @@ class DoublyLinkedList:
         return middle_node
 
     def has_loop(self) -> bool:
-        """Returns True if the list has a loop, False otherwise."""
+        """Returns True if the list has a loop, False otherwise. 
+        A loop exists if the next pointer of the tail points to the head,
+        and the previous pointer of the head points to the tail.
+        """
         return (
             self.__head is not None
             and self.__tail is not None
@@ -75,12 +78,19 @@ class DoublyLinkedList:
 
     def has_gap_backward(self):
         """Returns True if there is a gap between the forward and backward pointers."""
+        # Assume there is no gap
         has_gap = False
         if not self.is_empty():
+            # Operate only on a non empty list, by traversing from head to tail
             cursor = self.__head
+            # Move forward through the list until we reach the end or find a gap
             while cursor is not None and cursor.has_next() and not has_gap:
-                next = cursor.get_next
-                has_gap = ( next.get_prev() != cursor)
+                # Get the next node
+                next = cursor.get_next()
+                # Check if the next node's previous pointer points back to the current node.
+                # If not, we have found a gap
+                has_gap = (next.get_prev() != cursor)
+                # Move the cursor forward
                 cursor = next
         return has_gap
     
@@ -97,7 +107,8 @@ class DoublyLinkedList:
     def has_gap(self):
         return self.has_gap_backward() or self.has_gap_forward()
     
-    # Can forward or backward done in single method?
+    # Can forward or backward done in single method? Not required for this assignment
+    # this is just "Leo stuff"
     def has_gap_in_direction(self, forward=True):
         has_gap = False
         if not self.is_empty():
