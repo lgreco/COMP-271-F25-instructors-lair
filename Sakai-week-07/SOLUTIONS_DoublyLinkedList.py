@@ -70,7 +70,9 @@ class DoublyLinkedList:
         """
         return (
             self.__head is not None
+            and self.__head.has_prev()
             and self.__tail is not None
+            and self.__tail.has_next()
             and self.__head.get_prev() == self.__head
             and self.__tail.get_next() == self.__tail
         )
