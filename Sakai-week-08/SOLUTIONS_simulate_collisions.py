@@ -49,7 +49,7 @@ class SimulateCollisions:
         return h
 
     def hash_function(self, name: str) -> int:
-        """Hash function to map a string to a bucket index."""
+        """Hash function to map a name to a hotel room."""
         return self.hashcode(name) % self.N
 
     def check_in(self, name: str) -> bool:
@@ -89,7 +89,7 @@ class SimulateCollisions:
             total_success += current_success
             # Print the success for this simulation
         print(
-            f"Average success over {num_simulations} simulations: {total_success / num_simulations}"
+            f"\nN={self.N:,d}; simulations={num_simulations}; average admissions: {total_success / num_simulations}"
         )
 
 
