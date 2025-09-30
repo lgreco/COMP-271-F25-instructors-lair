@@ -40,13 +40,7 @@ class SimulateCollisions:
         """Hash function to map a name to a hotel room."""
         return self.hashcode(name) % self.N
 
-    def check_in(self, name: str) -> bool:
-        """Attempt to check in a guest. Return True if successful, False if there's a collision."""
-        pass
-
-    def simulate_check_in(self) -> int:
-        """Simulate the check-in process for all guests."""
-        pass
+    # Additional methods at your discretion
 
     def main(self):
         """Run multiple simulations and report average success rate."""
