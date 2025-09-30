@@ -25,7 +25,7 @@ class SimulateCollisions:
         pass
 
     def reset(self):
-        """Reset the hotel for a new simulation. """
+        """Reset the hotel for a new simulation."""
         self.hotel = [None] * self.N
 
     def generate_random_string(self):
