@@ -12,7 +12,8 @@
 8. Put the points and feedback for all students.
 9. **Manually** check their code for type annotations. Class variables at the minimum should be annotated. They should lose -0.5 points for missing annotations.
 10. Do not forget to check the `Late Pass 1` and `Late Pass 2` assignments on Sakai to see if students turned in their work with a late pass.
-
+11. The autograder results will be out of 8.0 points. The PDF submission is worth the remaining 2 points. 
+ 
 ## Important notes
 * The `solutions` directory has the reference files. 
 * Check the `grades_summary_sorted.csv` for any scores of 0. These programs likely failed to compile.
