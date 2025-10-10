@@ -2,6 +2,8 @@ import ast
 import csv
 import json
 import pathlib
+import textwrap
+
 import pytest
 import time
 from pathlib import Path
@@ -226,13 +228,17 @@ def pytest_runtest_makereport(item, call):
     if passed:
         cfg._grading["earned"] += pts
 
+    if passed:
+        error_msg = None
+    else:
+        error_msg = str(call.excinfo.value)
     cfg._grading["details"].append(
         {
             "nodeid": item.nodeid,
             # "name": item.name,
             "points": pts,
             "passed": passed,
-            "error": None if passed else str(call.excinfo),
+            "error": error_msg,
         }
     )
 
@@ -265,6 +271,20 @@ def pytest_sessionstart(session):
 
 def pytest_sessionfinish(session, exitstatus):
     print(f"\nGrades written to {GRADE_FILE.resolve()}")
+
+def parse_error_msg(error: str):
+    """
+    Parse the AssertionError on test case fails and return only the part about Expected and Actual Outputs
+    """
+    line = 'Expected: '
+    start_ix_exp = error.find('Expected Output:') + len('Expected Output:')
+    end_ix_exp = error.find('Actual Output:')
+    line = line + error[start_ix_exp: end_ix_exp]
+    start_ix_act = error.find('Actual Output:') + len('Actual Output:')
+    end_ix_act = error.find('assert')
+    line = line + f'\nActual: {error[start_ix_act: end_ix_act]}'
+    indentation = ' '
+    return textwrap.indent(line, indentation)
 
 # Hook: collect results after each test module (i.e., per student)
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
@@ -304,9 +324,29 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
 
     # write JSON
     json_path = f'./graded_submissions/{uvid}_results.json'
-
     with open(json_path, "w") as f:
         json.dump(payload, f, indent=2)
+
+    # write feedback based on failed test cases
+    feedback_path = f"./graded_submissions/{uvid}_feedback.txt"
+    feedback_list = [
+        f'Coding score: {payload["earned"]}/{payload["total"]}',
+    ]  # list of lines of feedback
+
+    for test_case in g['details']:
+        if test_case['passed']:
+            continue
+        feedback_list.extend([
+            f'* Failed {test_case["nodeid"].split("::")[-1]!r} (-{test_case["points"]} points)',
+            parse_error_msg(test_case["error"]),
+        ])
+    if len(feedback_list) > 1:
+        feedback_list.insert(1, 'Deductions: ')
+    else:
+        feedback_list.append('Well done!')
+
+    with open(feedback_path, "w") as f:
+        f.write('\n'.join(feedback_list))
 
     with GRADE_FILE.open("a", newline="") as f:
         writer = csv.writer(f)
