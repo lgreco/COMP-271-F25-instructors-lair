@@ -205,5 +205,7 @@ def test_str_method_output(character_instance, character_name):
     # Assert: Check the return value
     assert str_output == expected_output, (
         f"The __str__ method failed for {character_name!r}.\n"
-        f"Expected: '{expected_output}', but got: '{str_output}'"
+        # f"Expected Output: '{expected_output.strip()}\n', but got: '{str_output}'"
+        f"Expected Output:\n{expected_output.strip()}\n"
+        f"Actual Output:\n{str_output}"
     )
