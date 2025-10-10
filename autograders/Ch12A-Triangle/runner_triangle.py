@@ -148,7 +148,7 @@ def grade_submissions(submission_dir: Path, uvid2name_map: dict):
 
 def main():
     # sakai_submissions_dir = Path('./Sakai-Triangle')  ## example
-
+    #
     sakai_submissions_dir = None
 
     assert sakai_submissions_dir is not None, (
@@ -169,5 +169,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # grade_single_submission(name='Nate', uvid='nberlin')
+    # grade_single_submission(name='Ciel', uvid='jmcgrath1')
 

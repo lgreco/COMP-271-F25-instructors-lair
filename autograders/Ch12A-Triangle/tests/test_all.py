@@ -84,7 +84,7 @@ def init_triangle(student_module, side1, side2, side3):
     """
     required_params, all_params = required_init_args(student_module.Triangle)
     if len(all_params) == 3:
-        return student_module.Triangle(side1=side1, side2=side2, side3=side3)
+        return student_module.Triangle(side1, side2, side3)
     elif len(all_params) == 5:
         return student_module.Triangle(side1=side1, side2=side2, side3=side3, color='mauve', filled=False)
     else:
@@ -123,7 +123,8 @@ def test_str_method(student_module, fake_inputs):
     # tri = student_module.Triangle(side1=3, side2=4, side3=5)
     tri = init_triangle(student_module, side1=3, side2=4, side3=5)
     s1, s2, s3 = get_side(tri, 1), get_side(tri, 2), get_side(tri, 3)
-    assert str(tri).replace(',', '') == f'Triangle: side1 = {s1} side2 = {s2} side3 = {s3}', f'__str__ method returned {str(tri)!r}'
+    expected_str = f"Triangle: side1 = {s1}, side2 = {s2}, side3 = {s3}"
+    assert str(tri).replace(',', '') == expected_str.replace(',', ''), f'__str__ method returned {str(tri)!r}, expected {expected_str!r}'
 
 
 # check the filled and color
@@ -140,29 +141,34 @@ def test_color(student_module, fake_inputs):
     assert color == 'lilac', f'Color should be lilac, got: {color!r}'
 
 @pytest.mark.points(1)
-def test_filled(student_module, fake_inputs):
+def test_filled_true(student_module, fake_inputs):
     fake_inputs([1, 2, 3, "lilac", "1"])   # these replace 3 calls to input()
     tri1 = init_triangle(student_module, side1=3, side2=4, side3=5)
-    tri2 = init_triangle(student_module, side1=3, side2=4, side3=5)
-    # tri1 = student_module.Triangle(side1=3, side2=4, side3=5)
-    # tri2 = student_module.Triangle(side1=3, side2=4, side3=5)
 
     if hasattr(tri1, 'setFilled'):
         tri1.setFilled(True)
-        tri2.setFilled(False)
-    elif hasattr(tri2, 'set_filled'):
+    elif hasattr(tri1, 'set_filled'):
         tri1.set_filled(True)
-        tri2.set_filled(False)
+
     tri1_isfilled = get_attribute(tri1, 'filled')
     assert tri1_isfilled == True, f'Filled should be True, got: {tri1_isfilled}'
 
-    tri2_isfilled = get_attribute(tri2, "filled")
-    assert tri2_isfilled == False, f"Filled should be False, got: {tri2_isfilled}"
+@pytest.mark.points(1)
+def test_filled_false(student_module, fake_inputs):
+    fake_inputs([1, 2, 3, "lilac", "1"])   # these replace 3 calls to input()
+    tri1 = init_triangle(student_module, side1=3, side2=4, side3=5)
+
+    if hasattr(tri1, 'setFilled'):
+        tri1.setFilled(False)
+    elif hasattr(tri1, 'set_filled'):
+        tri1.set_filled(False)
+    tri1_isfilled = get_attribute(tri1, 'filled')
+    assert tri1_isfilled == False, f'Filled should be False, got: {tri1_isfilled}'
 
 @pytest.mark.points(1)
 def test_constructor_num_params(student_module, fake_inputs):
     fake_inputs([1, 2, 3, "lilac", "1"])   # these replace 3 calls to input()
     required_params, all_params = required_init_args(student_module.Triangle)
 
-    assert len(all_params) == 3, f'The constructor should have 3 parameters, got: {len(all_params)}.'
+    assert len(all_params) == 3, f'The Triangle constructor should have 3 parameters, got: {len(all_params)}.'
 

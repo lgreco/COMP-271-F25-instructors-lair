@@ -6,6 +6,9 @@ import os
 import pathlib
 import sys
 import builtins
+import textwrap
+from itertools import chain
+
 import pytest
 import uuid
 import time
@@ -99,6 +102,7 @@ def pytest_configure(config):
         config._grading = {"total": 0, "earned": 0, "details": []}
 
 
+
 def pytest_runtest_makereport(item, call):
     # called for setup/call/teardown; we only care about the 'call' phase (the test run)
     if call.when != "call":
@@ -110,15 +114,108 @@ def pytest_runtest_makereport(item, call):
     if passed:
         cfg._grading["earned"] += pts
 
+    if passed:
+        error_msg = None
+    else:
+        error_msg = str(call.excinfo.value)
     cfg._grading["details"].append(
         {
             "nodeid": item.nodeid,
             # "name": item.name,
             "points": pts,
             "passed": passed,
-            "error": None if passed else str(call.excinfo),
+            "error": error_msg,
         }
     )
+
+
+
+def parse_error_msg(error: str):
+    """
+    Parse the AssertionError on test case fails and return only the part about Expected and Actual Outputs
+    """
+    end_ix_act = error.find('assert')
+    line = error[: end_ix_act].strip()
+    indentation = '  '
+    return textwrap.indent(line, indentation)
+
+# Hook: collect results after each test module (i.e., per student)
+def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    results = {}
+    g = config._grading
+    name = config.getoption("--name")
+    uvid = config.getoption("--UVID")
+
+
+    # Write per-student summary
+    if 'passed' not in terminalreporter.stats:
+        terminalreporter.stats['passed'] = []
+    if 'failed' not in terminalreporter.stats:
+        terminalreporter.stats['failed'] = []
+    if 'error' not in terminalreporter.stats:
+        terminalreporter.stats['error'] = []
+    total_tests = len(terminalreporter.stats["passed"]) + len(
+        terminalreporter.stats["failed"]) + len(terminalreporter.stats["error"])
+
+    tests_passed = len(terminalreporter.stats["passed"])
+    total_score = sum(
+        t.keywords["points"]
+        for t in chain(
+            terminalreporter.stats["passed"], terminalreporter.stats["failed"], terminalreporter.stats["error"]
+        )
+    )
+    earned_score = sum(
+        t.keywords["points"]
+        for t in terminalreporter.stats["passed"]
+    )
+
+    tests_failed = total_tests - tests_passed
+
+    terminalreporter.write_sep(
+        "=", f"Name: {name!r} UVID: {uvid!r} Score: {earned_score}/{total_score}  Tests passed: {tests_passed}/{total_tests}"
+    )
+
+    payload = {
+        "name": name,
+        "UVID": uvid,
+        "earned": earned_score,
+        "total": total_score,
+        "details": g["details"],
+    }
+
+    # write JSON
+    json_path = f'./graded_submissions/{uvid}_results.json'
+    with open(json_path, "w") as f:
+        json.dump(payload, f, indent=2)
+
+    # write feedback based on failed test cases
+    feedback_path = f"./graded_submissions/{uvid}_feedback.txt"
+    feedback_list = [
+        f'Coding score: {payload["earned"]}/{payload["total"]}',
+    ]  # list of lines of feedback
+
+    for test_case in g['details']:
+        if test_case['passed']:
+            continue
+        feedback_list.extend([
+            f'* Failed {test_case["nodeid"].split("::")[-1]!r} (-{test_case["points"]:.1g} point)',
+            parse_error_msg(test_case["error"]),
+        ])
+    if len(feedback_list) > 1:
+        feedback_list.insert(1, 'Deductions: ')
+    else:
+        feedback_list.append('Well done!')
+
+    with open(feedback_path, "w") as f:
+        f.write('\n'.join(feedback_list))
+
+    with GRADE_FILE.open("a", newline="") as f:
+        writer = csv.writer(f)
+        # for student, res in results.items():
+        #     score = g['earned']
+        # "timestamp", "name", "UVID", 'num_tests', 'tests_failed', 'score', 'total'
+        writer.writerow([time.ctime(), name, uvid, total_tests, tests_failed, earned_score, total_score])
+
 
 
 def pytest_addoption(parser):
@@ -155,56 +252,6 @@ def pytest_sessionstart(session):
 
 def pytest_sessionfinish(session, exitstatus):
     print(f"\nGrades written to {GRADE_FILE.resolve()}")
-
-# Hook: collect results after each test module (i.e., per student)
-def pytest_terminal_summary(terminalreporter, exitstatus, config):
-    results = {}
-    g = config._grading
-    name = config.getoption("--name")
-    uvid = config.getoption("--UVID")
-
-
-    # Write per-student summary
-    total_tests = len(g['details'])
-
-    if total_tests == 0:
-        # test the config.stats dict
-        total_tests = len(terminalreporter.stats[''])
-        tests_passed = 0
-        total_score = sum(t.keywords['points'] for t in terminalreporter.stats['error'])
-        earned_score = 0
-    else:
-        tests_passed = len([1 for testcase in g['details'] if testcase['passed']])
-        earned_score = g["earned"]
-        total_score = g["total"]
-
-    tests_failed = total_tests - tests_passed
-
-    terminalreporter.write_sep(
-        "=", f"Name: {name!r} UVID: {uvid!r} Score: {earned_score}/{total_score}  Tests passed: {tests_passed}/{total_tests}"
-    )
-
-    payload = {
-        "name": name,
-        "UVID": uvid,
-        "earned": earned_score,
-        "total": total_score,
-        "details": g["details"],
-    }
-
-    # write JSON
-    json_path = f'./graded_submissions/{uvid}_results.json'
-
-    with open(json_path, "w") as f:
-        json.dump(payload, f, indent=2)
-
-    with GRADE_FILE.open("a", newline="") as f:
-        writer = csv.writer(f)
-        # for student, res in results.items():
-        #     score = g['earned']
-        # "timestamp", "name", "UVID", 'num_tests', 'tests_failed', 'score', 'total'
-        writer.writerow([time.ctime(), name, uvid, total_tests, tests_failed, earned_score, total_score])
-
 
 def test_syntax(student_file):
     src = open(student_file).read()
