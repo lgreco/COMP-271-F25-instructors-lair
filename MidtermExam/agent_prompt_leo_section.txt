@@ -14,12 +14,13 @@ The actual work is in subfolder named [Submission attachment(s)] within each stu
 The zip file also contains a csv file listing the students and their grade. The exam is worth 20 points based on the following rubric:
 
 Correct queue ops & Invariants (8): all ops done in fixed time with correct wrap, no side effects, invariants hold.
-Tests (5): coverage of edge cases & wrap-around; readable assertions.
+Tests (5): coverage of edge cases & wrap-around; readable assertions. Print statements are acceptable testing for now.
 Analysis (5): clarity of explanations; sound complexity & FIFO argument; simulation results.
 Style (2): type hints, docstrings, naming, no duplicate dunders.
-Remove one (1) point for each of the following violations: use of more than single return statement in methods that return a value; use of return statement to end a method that is not returning a value; use of break to end a loop; use of the continue statement; use of literals as magic values, excluding plus/minus 1, 0, the empty string, and the space string; use of the import statement.
 
-Open each student folder, then the [Submission attachment(s)] folder and evaluate the work therein, based on the assignment below. Then in the [comments.txt] file in the student folder, write exam feedback and grading. Do not use any annotation suggesting the feedback and grading are generated automatically. Also update the student grade in the CSV file. Then repackage everything in a similarly structured zip file for me to download.
+Remove one (1) point for each of the following violations if you see any: use of more than single return statement in methods that return a value; use of return statement to end a method that is not returning a value; use of break to end a loop; use of the continue statement; use of literals as magic values, excluding plus/minus 1, 0, the empty string, and the space string; use of the import statement. In the comments.txt mention the code line where any such violation occured.
+
+Open each student folder, then the [Submission attachment(s)] folder and evaluate the work therein, based on the assignment below. Then in the [comments.txt] file in the student folder, write exam feedback and grading using the rubric above. Mention explicitly the points deducted and the corresponding rubric item. Do not use any annotation suggesting the feedback and grading are generated automatically. Also update the student grade in the CSV file. Then repackage everything in a similarly structured zip file for me to download.
 
 Following is the exam text. The code mentioned in the exam and the drawing are also attached.
 
