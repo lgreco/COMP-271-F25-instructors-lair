@@ -1,0 +1,99 @@
+# This is the agentic prompt for Leo's section.
+# It includes additionanl instructions specific to the Programmers Pact.
+
+
+The following zip file contains folders that correspond to students' midterm exam papers. The folders are named after each student, in the following format:
+
+  [last name], [first_name]([username])
+  
+The actual work is in subfolder named [Submission attachment(s)] within each student's folder.
+
+The zip file also contains a csv file listing the students and their grade. The exam is worth 20 points based on the following rubric:
+
+Correct queue ops & Invariants (8): all ops done in fixed time with correct wrap, no side effects, invariants hold.
+Tests (5): coverage of edge cases & wrap-around; readable assertions.
+Analysis (5): clarity of explanations; sound complexity & FIFO argument; simulation results.
+Style (2): type hints, docstrings, naming, no duplicate dunders.
+Remove one (1) point for each of the following violations: use of more than single return statement in methods that return a value; use of return statement to end a method that is not returning a value; use of break to end a loop; use of the continue statement; use of literals as magic values, excluding plus/minus 1, 0, the empty string, and the space string; use of the import statement.
+
+Open each student folder, then the [Submission attachment(s)] folder and evaluate the work therein, based on the assignment below. Then in the [comments.txt] file in the student folder, write exam feedback and grading. Do not use any annotation suggesting the feedback and grading are generated automatically. Also update the student grade in the CSV file. Then repackage everything in a similarly structured zip file for me to download.
+
+Following is the exam text. The code mentioned in the exam and the drawing are also attached.
+
+Assignment: A Smarter Waiting Room
+Learning goals
+By the end, you will be able to:
+
+Model a real-world queue with a 2-D circular buffer.
+Maintain front/back indices and invariants for a queue without physical shifting.
+Design a focused unit-test suite (wrap-around, full/empty, iteration order).
+Scenario (motivation)
+A clinic uses an n x n waiting room laid out in rows. New arrivals sit in the first available seat scanning front→back, left→right (row-major order). The next person called is always at the front-left seat.
+
+Naïve policy (wasteful):
+
+When the front-left person leaves, everyone shifts one seat left; gaps at the right edge are back-filled by people from the next row; the last occupied seat becomes empty.
+This causes approximately n² seat moves in the worst case scenario (in computer science, we use the notation O(n²) to indicate the approximate duration of a worst case scenario).
+This naïve approach is implemented in class InefficiateTwoDimensionalQ (see attached).
+
+Smart receptionist: A smart receptionist at the clinic realizes that there is no need to have people move to another seat every time the next person is called. Instead, it is sufficient to track only who arrived last and who is next. Conceptually, we use the n x n grid as a seating area where a front of queue and back of queue pointer advance in row-major order (wrapping around).
+
+You are given a starter implementation that embodies this idea below.
+
+class TwoDimensionalQ:
+    def __init__(self, n: int = 4):
+        self._underlying: list[list[str]] = [[None for _ in range(n)] for _ in range(n)]
+        self._n: int = n
+        self._capacity: int = n * n
+        self._usage: int = 0
+        self._front_row: int = 0
+        self._front_col: int = 0
+        self._back_row: int = 0
+        self._back_col: int = 0
+What you must do
+Read & explain the data model (short write-up)
+In 100-200 words, explain how row-major order (front→back, left→right) is implemented using:
+
+a 2-D array self._underlying,
+a pair of indices self._front, self._back,
+modular arithmetic to advance and wrap.
+Implement the queue
+Implement the queue so that it is correct, side-effect free, and fast. Fast here means that there should be no shifting of elements closer to the front of the queue every time the next-in-line element is removed.
+
+Required behaviors & constraints
+enqueue(value: str) -> bool:
+Return False if full; otherwise place at back, advance back in row-major order with wrap, increment usage.
+Do not mutate other seats; no prints.
+dequeue() -> str | None:
+Return None if empty; otherwise remove at front, set that cell to None, advance front with wrap, decrement usage.
+No prints; exactly one return.
+peek() -> str | None: constant-time look at front.
+list_queue() -> list[str]: return logical order of occupants starting at front over usage items. Must handle wrap correctly and not expose None elements.
+Ensure type hints are consistent.
+implement special methods (dunders) for __repr__ and __bool__.
+implement getters for usage and capacity.
+Implementation notes
+You may add private helper methos as you see fit,
+You may not use the import statement.
+Methods that return values should have one and only one return statement. Methods that do not return values should have no return statements.
+Invariants
+0 ≤ usage ≤ capacity
+For all occupied positions along the logical queue, cells are non-None; all other cells are None.
+If usage == 0 then front == back.
+If usage == capacity then front == back as well (full cycle).
+The drawing below (also attached) shows a small seating room with 4 chairs as it fills up. The green values are the row and column indices of the two dimensional array. The back of the queue is shown with a pink outline. The front is shown with bold maroon letters.
+
+grid_queue.png
+
+Deliverables
+Code: two_dimensional_q.py with your finished class and some basic testing showing it works as expected.
+
+Write-up: writeup.pdf a 100-200 word essay on row-major order with modular arithmetic described above. 
+
+
+
+
+
+
+ 
+ 
