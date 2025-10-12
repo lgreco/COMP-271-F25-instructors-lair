@@ -1,6 +1,9 @@
 # This is the agentic prompt for Leo's section.
 # It includes additionanl instructions specific to the Programmers Pact.
-
+# The prompt must be accompanied by the following attachements:
+# - zip with Sakai download -- anonymized using rename.sh
+# - the assignment's attachements. 
+# Remove this comment header before trying the prompt.
 
 The following zip file contains folders that correspond to students' midterm exam papers. The folders are named after each student, in the following format:
 
