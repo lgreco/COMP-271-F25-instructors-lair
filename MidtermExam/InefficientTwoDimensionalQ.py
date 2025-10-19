@@ -44,7 +44,9 @@ class NaiveTwoDimensionalQ:
 
     def dequeue(self) -> str:
         """
-        Dequeue an element from the two-dimensional queue.
+        Dequeue an element from the two-dimensional queue. The first element 
+        is always expected to be at the front pointer, which has two components
+        for the corresponding row and column in the 2D underlying array.
         """
         result = None
         if self._usage > 0:

@@ -1,0 +1,29 @@
+# This is the agentic prompt for Leo's section.
+# It includes additionanl instructions specific to the Programmers Pact.
+# The prompt must be accompanied by the following attachements:
+# - zip with Sakai download -- anonymized using rename.sh
+# - the assignment's attachements. 
+# Remove this comment header before trying the prompt.
+
+The attached zip file contains folders that correspond to students' homework assignment. The folders are named after each student, in the following format:
+
+  [last name], [first_name]([username])
+  
+The actual work is in subfolder named [Submission attachment(s)] within each student's folder.
+
+The zip file also contains a csv file listing the students and their grade.  
+
+Evaluate the correctness of methods `exists` and `remove`, considering that HotelAlphabetical is an array of linkedlists with the Guest objects acting as linkable nodes. The code must have guard statements to protect against null arguments or empty array in HotelAlphabetical. Both methods should terminate immediately if the corresponding array element is empty. Traversal of a linked list must also terminate as soon as the Guest is found -- in method `remove` once a guest is found, the node must be removed using standard linkedlist techniques -- no pythonic stuff.
+
+Remove one (1) point for each of the following violations if you see any: use of more than single return statement in methods that return a value; use of return statement to end a method that is not returning a value; use of break to end a loop; use of the continue statement; use of literals as magic values, excluding plus/minus 1, 0, the empty string, and the space string; use of the import statement. IMPORTANT: No need to remove points for multiple occurrences of these violations. In the comments.txt mention the code lines where ALL the violation occured (including repetition of the violation even though we are not deducting points for each repetition).
+
+Open each student folder, then the [Submission attachment(s)] folder and evaluate the work therein, based on the assignment below. Then in the [comments.txt] file in the student folder, write exam feedback and grading using the rubric above. Mention explicitly the points deducted and the corresponding rubric item. Do not use any annotation suggesting the feedback and grading are generated automatically. Also update the student grade in the CSV file. Then repackage everything in a similarly structured zip file for me to download.
+
+Following is the assignment text. 
+
+
+Given classes `Guest` and `HotelAlphabetical` below, design and implement the following methods.
+
+- `HotelAlphabetical.exists(self, guest_name:str) -> bool:` that returns true if a guest with the specified name is present in the hotel and false otherwise.
+
+- `HotelAlphabetical.remove(self, guest_name:str) -> Guest | None:` that removes a guest, if present, from the hotel. If the removal is successful, the guest object is returned; otherwise the method returns `None`.

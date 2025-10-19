@@ -18,7 +18,7 @@ Tests (5): coverage of edge cases & wrap-around; readable assertions. Print stat
 Analysis (5): clarity of explanations; sound complexity & FIFO argument; simulation results.
 Style (2): type hints, docstrings, naming, no duplicate dunders.
 
-Remove one (1) point for each of the following violations if you see any: use of more than single return statement in methods that return a value; use of return statement to end a method that is not returning a value; use of break to end a loop; use of the continue statement; use of literals as magic values, excluding plus/minus 1, 0, the empty string, and the space string; use of the import statement. In the comments.txt mention the code line where any such violation occured.
+Remove one (1) point for each of the following violations if you see any: use of more than single return statement in methods that return a value; use of return statement to end a method that is not returning a value; use of break to end a loop; use of the continue statement; use of literals as magic values, excluding plus/minus 1, 0, the empty string, and the space string; use of the import statement. IMPORTANT: No need to remove points for multiple occurrences of these violations. In the comments.txt mention the code lines where ALL the violation occured (including repetition of the violation even though we are not deducting points for each repetition).
 
 Open each student folder, then the [Submission attachment(s)] folder and evaluate the work therein, based on the assignment below. Then in the [comments.txt] file in the student folder, write exam feedback and grading using the rubric above. Mention explicitly the points deducted and the corresponding rubric item. Do not use any annotation suggesting the feedback and grading are generated automatically. Also update the student grade in the CSV file. Then repackage everything in a similarly structured zip file for me to download.
 
@@ -93,11 +93,3 @@ Deliverables
 Code: two_dimensional_q.py with your finished class and some basic testing showing it works as expected.
 
 Write-up: writeup.pdf a 100-200 word essay on row-major order with modular arithmetic described above. 
-
-
-
-
-
-
- 
- 
